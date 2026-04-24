@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: moodmovie_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mooduser
+      POSTGRES_PASSWORD: moodpass
+      POSTGRES_DB: moodmovie_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+    container_name: moodmovie_backend
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: moodmovie_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  postgres_data:
