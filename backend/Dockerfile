@@ -7,6 +7,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
+RUN python -c "from transformers import AutoTokenizer, AutoModelForSequenceClassification; model_name='maymuni/bert-base-turkish-cased-emotion-analysis'; AutoTokenizer.from_pretrained(model_name); AutoModelForSequenceClassification.from_pretrained(model_name)"
+
 COPY . .
 
 EXPOSE 8000
