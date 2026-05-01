@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -40,12 +42,24 @@ app.include_router(auth_router)
 app.include_router(favorites_router)
 app.include_router(feedback_router)
 
+frontend_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://moodmovie-one.vercel.app",
+]
+
+extra_origins = os.getenv("CORS_ORIGINS", "")
+if extra_origins.strip():
+    frontend_origins.extend(
+        [origin.strip() for origin in extra_origins.split(",") if origin.strip()]
+    )
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],          
+    allow_origins=list(dict.fromkeys(frontend_origins)),
     allow_credentials=True,
-    allow_methods=["*"],          
-    allow_headers=["*"],         
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 class AnalyzeRequest(BaseModel):
