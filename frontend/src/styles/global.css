@@ -671,9 +671,58 @@ button {
   margin-bottom: 8px;
 }
 
+.movie-action-wrap {
+  position: relative;
+  flex: 1;
+}
+
+.movie-action-wrap.has-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%) translateY(4px);
+  min-width: 170px;
+  max-width: 220px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  color: #e2e8f0;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 20;
+  box-shadow: 0 14px 28px rgba(2, 6, 23, 0.32);
+}
+
+.movie-action-wrap.has-tooltip::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%) translateY(6px);
+  border-width: 6px 6px 0 6px;
+  border-style: solid;
+  border-color: rgba(15, 23, 42, 0.96) transparent transparent transparent;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 20;
+}
+
+.movie-action-wrap.has-tooltip:hover::after,
+.movie-action-wrap.has-tooltip:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 .fav-btn,
 .trailer-btn {
-  flex: 1;
+  width: 100%;
   border: none;
   border-radius: 999px;
   padding: 8px 10px;

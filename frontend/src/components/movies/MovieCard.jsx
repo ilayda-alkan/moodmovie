@@ -7,6 +7,8 @@ export default function MovieCard({
   onFeedback,
   canUseMovieActions = true,
 }) {
+  const guestTooltip = "Favorilere eklemek icin login olman gerekiyor.";
+
   function handleTrailerOpen() {
     if (!movie.trailerUrl) return;
     window.open(movie.trailerUrl, "_blank", "noopener,noreferrer");
@@ -23,29 +25,37 @@ export default function MovieCard({
       </p>
 
       <div className="movie-actions">
-        <button
-          className="fav-btn"
-          type="button"
-          onClick={() => onAddFavorite(movie)}
-          disabled={!canUseMovieActions || isFavorite || isFavoritesLoading}
+        <div
+          className={`movie-action-wrap ${!canUseMovieActions ? "has-tooltip" : ""}`}
+          data-tooltip={!canUseMovieActions ? guestTooltip : ""}
         >
-          {!canUseMovieActions
-            ? "Uyeler Icin"
-            : isFavoritesLoading
-            ? "Yukleniyor..."
-            : isFavorite
-            ? "Favorilerde"
-            : "Favoriye Ekle"}
-        </button>
+          <button
+            className="fav-btn"
+            type="button"
+            onClick={() => onAddFavorite(movie)}
+            disabled={!canUseMovieActions || isFavorite || isFavoritesLoading}
+          >
+            {isFavoritesLoading
+              ? "Yukleniyor..."
+              : isFavorite
+              ? "Favorilerde"
+              : "Favoriye Ekle"}
+          </button>
+        </div>
 
-        <button
-          className="trailer-btn"
-          type="button"
-          onClick={handleTrailerOpen}
-          disabled={!canUseMovieActions}
+        <div
+          className={`movie-action-wrap ${!canUseMovieActions ? "has-tooltip" : ""}`}
+          data-tooltip={!canUseMovieActions ? guestTooltip : ""}
         >
-          {canUseMovieActions ? "Fragman Izle" : "Uyeler Icin"}
-        </button>
+          <button
+            className="trailer-btn"
+            type="button"
+            onClick={handleTrailerOpen}
+            disabled={!canUseMovieActions}
+          >
+            Fragman Izle
+          </button>
+        </div>
       </div>
 
       <div className="movie-feedback-row">
