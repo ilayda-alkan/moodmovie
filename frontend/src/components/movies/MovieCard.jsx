@@ -7,7 +7,8 @@ export default function MovieCard({
   onFeedback,
   canUseMovieActions = true,
 }) {
-  const guestTooltip = "Favorilere eklemek icin login olman gerekiyor.";
+  const favoriteTooltip = "Favorilere eklemek icin login olman gerekiyor.";
+  const trailerTooltip = "Fragman izlemek icin login olman gerekiyor.";
 
   function handleTrailerOpen() {
     if (!movie.trailerUrl) return;
@@ -27,7 +28,7 @@ export default function MovieCard({
       <div className="movie-actions">
         <div
           className={`movie-action-wrap ${!canUseMovieActions ? "has-tooltip" : ""}`}
-          data-tooltip={!canUseMovieActions ? guestTooltip : ""}
+          data-tooltip={!canUseMovieActions ? favoriteTooltip : ""}
         >
           <button
             className="fav-btn"
@@ -45,7 +46,7 @@ export default function MovieCard({
 
         <div
           className={`movie-action-wrap ${!canUseMovieActions ? "has-tooltip" : ""}`}
-          data-tooltip={!canUseMovieActions ? guestTooltip : ""}
+          data-tooltip={!canUseMovieActions ? trailerTooltip : ""}
         >
           <button
             className="trailer-btn"

@@ -625,6 +625,8 @@ button {
   flex-direction: column;
   gap: 8px;
   min-height: 122px;
+  overflow: visible;
+  z-index: 0;
 }
 
 .movie-card-favorite {
@@ -639,6 +641,7 @@ button {
   border-radius: 12px;
   background: linear-gradient(180deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.03));
   pointer-events: none;
+  z-index: 0;
 }
 
 .movie-card:hover {
@@ -647,6 +650,8 @@ button {
 }
 
 .movie-title {
+  position: relative;
+  z-index: 1;
   font-size: 0.92rem;
   font-weight: 700;
   color: #ffffff;
@@ -656,6 +661,8 @@ button {
 }
 
 .movie-genre {
+  position: relative;
+  z-index: 1;
   font-size: 0.75rem;
   color: #9fb0d3;
   line-height: 1.45;
@@ -664,6 +671,8 @@ button {
 }
 
 .movie-actions {
+  position: relative;
+  z-index: 3;
   margin-top: auto;
   display: flex;
   gap: 8px;
@@ -674,6 +683,8 @@ button {
 .movie-action-wrap {
   position: relative;
   flex: 1;
+  overflow: visible;
+  z-index: 4;
 }
 
 .movie-action-wrap.has-tooltip::after {
@@ -697,6 +708,7 @@ button {
   transition: opacity 0.18s ease, transform 0.18s ease;
   z-index: 20;
   box-shadow: 0 14px 28px rgba(2, 6, 23, 0.32);
+  white-space: normal;
 }
 
 .movie-action-wrap.has-tooltip::before {
@@ -754,6 +766,8 @@ button {
 }
 
 .movie-feedback-row {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
