@@ -24,7 +24,7 @@ export default function MoodInputCard({
       </div>
 
       <label className="input-label" htmlFor="mood-text">
-        Konuşmanı ya da ruh halini buraya yaz:
+        Konuşmanı ya da ruh halini buraya yazabilirsin:
       </label>
 
       <textarea
@@ -62,7 +62,7 @@ export default function MoodInputCard({
                     : ""}
                 </p>
                 <p>
-                  Yogunluk: {emotionResult.intensity || "-"}
+                  Yoğunluk: {emotionResult.intensity || "-"}
                 </p>
               </>
             ) : (

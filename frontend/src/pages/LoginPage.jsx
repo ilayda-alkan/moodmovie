@@ -57,7 +57,7 @@ export default function LoginPage() {
         password: formData.password,
       });
 
-      setSuccess("Kayit basarili. Simdi giris yapabilirsin.");
+      setSuccess("Kayıt başarılı. Şimdi giriş yapabilirsiniz.");
       setIsLogin(true);
     } catch (err) {
       const backendMessage =
@@ -78,7 +78,7 @@ export default function LoginPage() {
         <section className="auth-hero">
           <span className="auth-badge">MoodMovie</span>
           <h1>Duyguna göre film deneyimini kişiselleştir.</h1>
-          <p>Giriş yaparak film önerilerine ve favorilerine tek yerden ulaş.</p>
+          <p>Giriş yaparak film önerilerine ve favorilerine tek yerden ulaşabilirsin.</p>
 
           <div className="auth-feature-list">
             <div className="auth-feature-card">
