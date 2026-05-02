@@ -11,6 +11,7 @@ import {
 } from "../services/api";
 
 export default function AnalyzePage() {
+  const isGuestSession = localStorage.getItem("session_mode") === "guest";
   const [text, setText] = useState("");
   const [emotionResult, setEmotionResult] = useState({
     emotion: "",
@@ -73,8 +74,8 @@ export default function AnalyzePage() {
 
     async function loadFavorites() {
       try {
-        const favoriteMovies = await getFavoritesRequest();
         const feedbacks = await getFeedbacksRequest();
+        const favoriteMovies = isGuestSession ? [] : await getFavoritesRequest();
         if (isMounted) {
           setFavorites(favoriteMovies);
           setFeedbackMap(
@@ -102,9 +103,13 @@ export default function AnalyzePage() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [isGuestSession]);
 
   async function handleAddFavorite(movie) {
+    if (isGuestSession) {
+      return;
+    }
+
     const alreadyExists = favorites.some((fav) => fav.id === movie.id);
     if (alreadyExists) {
       return;
@@ -229,6 +234,7 @@ export default function AnalyzePage() {
         isFavoritesLoading={isFavoritesLoading}
         feedbackMap={feedbackMap}
         onFeedback={handleFeedback}
+        canUseMovieActions={!isGuestSession}
       />
     </div>
   );

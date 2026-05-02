@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import { createGuestSessionRequest } from "../services/api";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -46,6 +47,8 @@ export default function LoginPage() {
           throw new Error("Token donmedi.");
         }
 
+        localStorage.removeItem("guest_token");
+        localStorage.setItem("session_mode", "user");
         localStorage.setItem("token", token);
         navigate("/");
         return;
@@ -65,6 +68,36 @@ export default function LoginPage() {
         err?.response?.data?.message ||
         err.message ||
         "Bir hata olustu.";
+
+      setError(backendMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleContinueAsGuest = async () => {
+    setError("");
+    setSuccess("");
+    setLoading(true);
+
+    try {
+      const data = await createGuestSessionRequest();
+      if (!data?.guest_token) {
+        throw new Error("Misafir oturumu olusturulamadi.");
+      }
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("role");
+      localStorage.setItem("guest_token", data.guest_token);
+      localStorage.setItem("session_mode", "guest");
+      navigate("/");
+    } catch (err) {
+      const backendMessage =
+        err?.response?.data?.detail ||
+        err?.response?.data?.message ||
+        err.message ||
+        "Misafir oturumu baslatilamadi.";
 
       setError(backendMessage);
     } finally {
@@ -161,6 +194,15 @@ export default function LoginPage() {
                 {loading && !isLogin ? "Yükleniyor..." : "Kayıt Ol"}
               </button>
             </div>
+
+            <button
+              type="button"
+              className="auth-submit-button secondary auth-guest-button"
+              onClick={handleContinueAsGuest}
+              disabled={loading}
+            >
+              {loading ? "Yukleniyor..." : "Misafir Olarak Devam Et"}
+            </button>
           </form>
         </section>
       </div>

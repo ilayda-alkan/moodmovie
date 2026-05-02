@@ -15,6 +15,7 @@ from app.database import Base, engine
 from app.routes.auth_routes import router as auth_router
 from app.routes.feedback_routes import router as feedback_router
 from app.routes.favorites_routes import router as favorites_router
+from app.routes.guest_routes import router as guest_router
 
 from app.auth import hash_password
 
@@ -41,6 +42,7 @@ ensure_feedback_columns()
 app.include_router(auth_router) 
 app.include_router(favorites_router)
 app.include_router(feedback_router)
+app.include_router(guest_router)
 
 frontend_origins = [
     "http://localhost:5173",

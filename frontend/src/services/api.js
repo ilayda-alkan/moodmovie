@@ -1,5 +1,12 @@
 import api from "../api/axios";
 
+function isGuestMode() {
+  return (
+    localStorage.getItem("session_mode") === "guest" &&
+    Boolean(localStorage.getItem("guest_token"))
+  );
+}
+
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ||
   "http://localhost:8001";
@@ -74,7 +81,7 @@ export async function clearFavoritesRequest() {
 }
 
 export async function getFeedbacksRequest() {
-  const response = await api.get("/feedbacks");
+  const response = await api.get(isGuestMode() ? "/guest-feedbacks" : "/feedbacks");
   return Array.isArray(response.data) ? response.data : [];
 }
 
@@ -85,7 +92,8 @@ export async function sendFeedbackRequest({
   emotionContext,
   analysisText,
 }) {
-  const response = await api.post("/feedbacks", {
+  const endpoint = isGuestMode() ? "/guest-feedbacks" : "/feedbacks";
+  const response = await api.post(endpoint, {
     movie_id: String(movieId),
     title,
     reaction,
@@ -97,10 +105,22 @@ export async function sendFeedbackRequest({
 }
 
 export async function getFeedbackStatsRequest() {
+  if (isGuestMode()) {
+    return [];
+  }
+
   const response = await api.get("/feedbacks/stats");
   return Array.isArray(response.data) ? response.data : [];
 }
 
 export async function deleteFeedbackRequest(feedbackId) {
-  await api.delete(`/feedbacks/${feedbackId}`);
+  const endpoint = isGuestMode()
+    ? `/guest-feedbacks/${feedbackId}`
+    : `/feedbacks/${feedbackId}`;
+  await api.delete(endpoint);
+}
+
+export async function createGuestSessionRequest() {
+  const response = await api.post("/guest/session");
+  return response.data;
 }

@@ -2,6 +2,7 @@ from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from app.database import Base
 
+
 class User(Base):
     __tablename__ = "users"
 
@@ -11,6 +12,16 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     favorites = relationship("Favorite", back_populates="user")
     feedbacks = relationship("Feedback", back_populates="user")
+
+
+class GuestSession(Base):
+    __tablename__ = "guest_sessions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    guest_token = Column(String, unique=True, index=True, nullable=False)
+    created_at = Column(DateTime(timezone=True), nullable=True)
+    last_seen_at = Column(DateTime(timezone=True), nullable=True)
+    feedbacks = relationship("GuestFeedback", back_populates="guest_session")
 
 
 class Favorite(Base):
@@ -42,3 +53,21 @@ class Feedback(Base):
     updated_at = Column(DateTime(timezone=True), nullable=True)
 
     user = relationship("User", back_populates="feedbacks")
+
+
+class GuestFeedback(Base):
+    __tablename__ = "guest_feedbacks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    guest_session_id = Column(
+        Integer, ForeignKey("guest_sessions.id"), nullable=False, index=True
+    )
+    movie_id = Column(String, nullable=False, index=True)
+    title = Column(String, nullable=False)
+    reaction = Column(String, nullable=False, index=True)
+    emotion_context = Column(String, nullable=True, index=True)
+    analysis_text = Column(String, nullable=True)
+    created_at = Column(DateTime(timezone=True), nullable=True)
+    updated_at = Column(DateTime(timezone=True), nullable=True)
+
+    guest_session = relationship("GuestSession", back_populates="feedbacks")

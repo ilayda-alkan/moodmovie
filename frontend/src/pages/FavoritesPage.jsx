@@ -6,11 +6,19 @@ import {
 } from "../services/api";
 
 export default function FavoritesPage() {
+  const isGuestSession = localStorage.getItem("session_mode") === "guest";
   const [favorites, setFavorites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    if (isGuestSession) {
+      setFavorites([]);
+      setIsLoading(false);
+      setError("");
+      return undefined;
+    }
+
     let isMounted = true;
 
     async function loadFavorites() {
@@ -21,7 +29,7 @@ export default function FavoritesPage() {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err?.response?.data?.detail || "Favoriler yüklenemedi.");
+          setError(err?.response?.data?.detail || "Favoriler yuklenemedi.");
         }
       } finally {
         if (isMounted) {
@@ -35,7 +43,7 @@ export default function FavoritesPage() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [isGuestSession]);
 
   async function handleClearFavorites() {
     try {
@@ -51,7 +59,7 @@ export default function FavoritesPage() {
       await removeFavoriteRequest(id);
       setFavorites((prev) => prev.filter((movie) => movie.id !== id));
     } catch (err) {
-      setError(err?.response?.data?.detail || "Favori kaldırılamadı.");
+      setError(err?.response?.data?.detail || "Favori kaldirilamadi.");
     }
   }
 
@@ -73,23 +81,29 @@ export default function FavoritesPage() {
             className="btn-secondary"
             type="button"
             onClick={handleClearFavorites}
-            disabled={favorites.length === 0 || isLoading}
+            disabled={isGuestSession || favorites.length === 0 || isLoading}
           >
-            Tümünü Temizle
+            Tumunu Temizle
           </button>
         </div>
 
         {error ? <p className="auth-message auth-error">{error}</p> : null}
 
-        {isLoading ? (
+        {isGuestSession ? (
           <div className="favorites-container">
-            <p className="muted">Favoriler yükleniyor...</p>
+            <p className="muted">
+              Misafir oturumunda favoriler kapali. Favori kaydetmek ve fragman
+              izlemek icin giris yapmalisin.
+            </p>
+          </div>
+        ) : isLoading ? (
+          <div className="favorites-container">
+            <p className="muted">Favoriler yukleniyor...</p>
           </div>
         ) : favorites.length === 0 ? (
           <div className="favorites-container">
             <p className="muted">
-              Henüz favori yok. Bir filmi favoriye eklediğinde burada
-              görünecek.
+              Henuz favori yok. Bir filmi favoriye eklediginde burada gorunecek.
             </p>
           </div>
         ) : (
@@ -110,7 +124,7 @@ export default function FavoritesPage() {
                     type="button"
                     onClick={() => handleRemoveFavorite(movie.id)}
                   >
-                    Favoriden Çıkar
+                    Favoriden Cikar
                   </button>
 
                   <button
@@ -118,7 +132,7 @@ export default function FavoritesPage() {
                     type="button"
                     onClick={() => handleOpenTrailer(movie)}
                   >
-                    Fragman İzle
+                    Fragman Izle
                   </button>
                 </div>
               </article>

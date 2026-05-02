@@ -7,6 +7,7 @@ export default function MovieGrid({
   isFavoritesLoading = false,
   feedbackMap = {},
   onFeedback,
+  canUseMovieActions = true,
 }) {
   return (
     <section className="analyze-panel movies-panel">
@@ -34,6 +35,7 @@ export default function MovieGrid({
                 isFavoritesLoading={isFavoritesLoading}
                 feedbackReaction={feedbackMap[movie.id] || ""}
                 onFeedback={onFeedback}
+                canUseMovieActions={canUseMovieActions}
               />
             );
           })}

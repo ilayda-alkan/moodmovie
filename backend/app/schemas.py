@@ -72,3 +72,19 @@ class FeedbackStatsResponse(BaseModel):
     neutral_count: int
     dislike_count: int
     approval_rate: float
+
+
+class GuestSessionResponse(BaseModel):
+    guest_token: str
+
+
+class GuestFeedbackResponse(BaseModel):
+    id: int
+    movie_id: str
+    title: str
+    reaction: str
+    emotion_context: str | None = None
+    analysis_text: str | None = None
+
+    class Config:
+        from_attributes = True

@@ -5,6 +5,7 @@ export default function MovieCard({
   isFavoritesLoading = false,
   feedbackReaction = "",
   onFeedback,
+  canUseMovieActions = true,
 }) {
   function handleTrailerOpen() {
     if (!movie.trailerUrl) return;
@@ -26,9 +27,11 @@ export default function MovieCard({
           className="fav-btn"
           type="button"
           onClick={() => onAddFavorite(movie)}
-          disabled={isFavorite || isFavoritesLoading}
+          disabled={!canUseMovieActions || isFavorite || isFavoritesLoading}
         >
-          {isFavoritesLoading
+          {!canUseMovieActions
+            ? "Uyeler Icin"
+            : isFavoritesLoading
             ? "Yukleniyor..."
             : isFavorite
             ? "Favorilerde"
@@ -39,8 +42,9 @@ export default function MovieCard({
           className="trailer-btn"
           type="button"
           onClick={handleTrailerOpen}
+          disabled={!canUseMovieActions}
         >
-          Fragman Izle
+          {canUseMovieActions ? "Fragman Izle" : "Uyeler Icin"}
         </button>
       </div>
 
