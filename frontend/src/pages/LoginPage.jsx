@@ -5,6 +5,7 @@ import { createGuestSessionRequest } from "../services/api";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const isGuestSession = localStorage.getItem("session_mode") === "guest";
 
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -197,7 +198,9 @@ export default function LoginPage() {
 
             <button
               type="button"
-              className="auth-submit-button secondary auth-guest-button"
+              className={`auth-submit-button auth-guest-button ${
+                isGuestSession ? "" : "secondary"
+              }`}
               onClick={handleContinueAsGuest}
               disabled={loading}
             >
