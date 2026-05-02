@@ -34,7 +34,7 @@ export default function AnalyzePage() {
     const analysisText = inputText.trim();
 
     if (!analysisText) {
-      setError("Lutfen analiz icin bir metin gir.");
+      setError("Lütfen analiz için bir metin giriniz.");
       return;
     }
 
@@ -61,7 +61,7 @@ export default function AnalyzePage() {
 
       setMovies(normalizedMovies);
     } catch (err) {
-      setError(err.message || "Bir hata olustu.");
+      setError(err.message || "Bir hata oluştu.");
       setMovies([]);
     } finally {
       setIsLoading(false);
@@ -88,7 +88,7 @@ export default function AnalyzePage() {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err?.response?.data?.detail || "Favoriler yuklenemedi.");
+          setError(err?.response?.data?.detail || "Favoriler yüklenemedi.");
         }
       } finally {
         if (isMounted) {
@@ -146,8 +146,8 @@ export default function AnalyzePage() {
       window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      setMicStatus("Tarayici ses tanimayi desteklemiyor");
-      setError("Bu tarayicida sesli komut desteklenmiyor.");
+      setMicStatus("Tarayıcı ses tanımayı desteklemiyor");
+      setError("Bu tarayıcıda sesli komut desteklenmiyor.");
       return;
     }
 
@@ -179,7 +179,7 @@ export default function AnalyzePage() {
         void runAnalysis(transcript);
       }
 
-      setMicStatus("Konusma tamamlandi");
+      setMicStatus("Konuşma tamamlandı");
     };
 
     recognition.onerror = (event) => {
@@ -187,13 +187,13 @@ export default function AnalyzePage() {
 
       if (event.error === "not-allowed") {
         setMicStatus("Mikrofon izni verilmedi");
-        setError("Mikrofon izni verilmedi. Tarayicidan izin vermelisin.");
+        setError("Mikrofon izni verilmedi. Tarayıcıdan izin vermelisin.");
       } else if (event.error === "no-speech") {
-        setMicStatus("Ses algilanmadi");
-        setError("Herhangi bir konusma algilanmadi.");
+        setMicStatus("Ses algılanmadı");
+        setError("Herhangi bir konuşma algılanmadı.");
       } else {
-        setMicStatus("Mikrofon hatasi");
-        setError(`Sesli komut hatasi: ${event.error}`);
+        setMicStatus("Mikrofon hatası");
+        setError(`Sesli komut hatası: ${event.error}`);
       }
     };
 
