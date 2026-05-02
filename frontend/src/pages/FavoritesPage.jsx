@@ -29,7 +29,7 @@ export default function FavoritesPage() {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err?.response?.data?.detail || "Favoriler yuklenemedi.");
+          setError(err?.response?.data?.detail || "Favoriler yüklenemedi.");
         }
       } finally {
         if (isMounted) {
@@ -59,7 +59,7 @@ export default function FavoritesPage() {
       await removeFavoriteRequest(id);
       setFavorites((prev) => prev.filter((movie) => movie.id !== id));
     } catch (err) {
-      setError(err?.response?.data?.detail || "Favori kaldirilamadi.");
+      setError(err?.response?.data?.detail || "Favori kaldırılamadı.");
     }
   }
 
@@ -83,7 +83,7 @@ export default function FavoritesPage() {
             onClick={handleClearFavorites}
             disabled={isGuestSession || favorites.length === 0 || isLoading}
           >
-            Tumunu Temizle
+            Tümünü Temizle
           </button>
         </div>
 
@@ -92,18 +92,18 @@ export default function FavoritesPage() {
         {isGuestSession ? (
           <div className="favorites-container">
             <p className="muted">
-              Misafir oturumunda favoriler kapali. Favori kaydetmek ve fragman
-              izlemek icin giris yapmalisin.
+              Misafir oturumunda favoriler kapalı. Favori kaydetmek ve fragman
+              izlemek için giriş yapmalısın.
             </p>
           </div>
         ) : isLoading ? (
           <div className="favorites-container">
-            <p className="muted">Favoriler yukleniyor...</p>
+            <p className="muted">Favoriler yükleniyor...</p>
           </div>
         ) : favorites.length === 0 ? (
           <div className="favorites-container">
             <p className="muted">
-              Henuz favori yok. Bir filmi favoriye eklediginde burada gorunecek.
+              Henüz favori yok. Bir filmi favoriye eklediğinde burada görünecek.
             </p>
           </div>
         ) : (
@@ -124,7 +124,7 @@ export default function FavoritesPage() {
                     type="button"
                     onClick={() => handleRemoveFavorite(movie.id)}
                   >
-                    Favoriden Cikar
+                    Favoriden Çıkar
                   </button>
 
                   <button
@@ -132,7 +132,7 @@ export default function FavoritesPage() {
                     type="button"
                     onClick={() => handleOpenTrailer(movie)}
                   >
-                    Fragman Izle
+                    Fragman İzle
                   </button>
                 </div>
               </article>
