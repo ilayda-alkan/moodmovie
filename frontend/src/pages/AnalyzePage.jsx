@@ -146,6 +146,10 @@ export default function AnalyzePage() {
     await runAnalysis(text);
   }
 
+  function handleGuestFeedbackSubmit() {
+    window.location.reload();
+  }
+
   function handleStartListening() {
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -235,6 +239,8 @@ export default function AnalyzePage() {
         feedbackMap={feedbackMap}
         onFeedback={handleFeedback}
         canUseMovieActions={!isGuestSession}
+        showGuestSubmit={isGuestSession && movies.length > 0}
+        onGuestSubmit={handleGuestFeedbackSubmit}
       />
     </div>
   );

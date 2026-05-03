@@ -694,9 +694,9 @@ button {
 .movie-action-wrap.has-tooltip::after {
   content: attr(data-tooltip);
   position: absolute;
-  left: 50%;
+  left: 0;
   bottom: calc(100% + 8px);
-  transform: translateX(-50%) translateY(4px);
+  transform: translateY(4px);
   min-width: 170px;
   max-width: 210px;
   padding: 8px 10px;
@@ -718,9 +718,9 @@ button {
 .movie-action-wrap.has-tooltip::before {
   content: "";
   position: absolute;
-  left: 50%;
+  left: 18px;
   bottom: calc(100% + 2px);
-  transform: translateX(-50%) translateY(6px);
+  transform: translateY(6px);
   border-width: 6px 6px 0 6px;
   border-style: solid;
   border-color: rgba(15, 23, 42, 0.96) transparent transparent transparent;
@@ -733,7 +733,27 @@ button {
 .movie-action-wrap.has-tooltip:hover::after,
 .movie-action-wrap.has-tooltip:hover::before {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
+}
+
+.movie-action-wrap.tooltip-align-right.has-tooltip::after {
+  left: auto;
+  right: 0;
+}
+
+.movie-action-wrap.tooltip-align-right.has-tooltip::before {
+  left: auto;
+  right: 18px;
+}
+
+.guest-feedback-action {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.guest-feedback-button {
+  min-width: 220px;
 }
 
 .fav-btn,

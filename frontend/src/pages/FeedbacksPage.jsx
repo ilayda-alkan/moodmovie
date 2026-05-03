@@ -6,11 +6,19 @@ import {
 } from "../services/api";
 
 export default function FeedbacksPage() {
+  const isGuestSession = localStorage.getItem("session_mode") === "guest";
   const [feedbacks, setFeedbacks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    if (isGuestSession) {
+      setFeedbacks([]);
+      setIsLoading(false);
+      setError("");
+      return undefined;
+    }
+
     let isMounted = true;
 
     async function loadFeedbacks() {
@@ -21,7 +29,7 @@ export default function FeedbacksPage() {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err?.response?.data?.detail || "Feedback listesi yüklenemedi.");
+          setError(err?.response?.data?.detail || "Feedback listesi yuklenemedi.");
         }
       } finally {
         if (isMounted) {
@@ -35,7 +43,7 @@ export default function FeedbacksPage() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [isGuestSession]);
 
   const summary = useMemo(() => {
     return feedbacks.reduce(
@@ -72,7 +80,7 @@ export default function FeedbacksPage() {
         )
       );
     } catch (err) {
-      setError(err?.response?.data?.detail || "Feedback güncellenemedi.");
+      setError(err?.response?.data?.detail || "Feedback guncellenemedi.");
     }
   }
 
@@ -83,8 +91,8 @@ export default function FeedbacksPage() {
           <div>
             <h1>Geri Bildirimlerim</h1>
             <p className="feedbacks-subtitle">
-              Önerilen filmlere verdiğin tepkileri burada takip edebilir,
-              beğeni durumlarını istediğin zaman değiştirebilirsin.
+              Onerilen filmlere verdigin tepkileri burada takip edebilir, begeni
+              durumlarini istedigin zaman degistirebilirsin.
             </p>
           </div>
 
@@ -94,15 +102,15 @@ export default function FeedbacksPage() {
               <strong>{summary.total}</strong>
             </div>
             <div className="feedbacks-summary-card like">
-              <span>Beğendim</span>
+              <span>Begendim</span>
               <strong>{summary.like}</strong>
             </div>
             <div className="feedbacks-summary-card neutral">
-              <span>Nötr</span>
+              <span>Notr</span>
               <strong>{summary.neutral}</strong>
             </div>
             <div className="feedbacks-summary-card dislike">
-              <span>Beğenmedim</span>
+              <span>Begenmedim</span>
               <strong>{summary.dislike}</strong>
             </div>
           </div>
@@ -110,14 +118,20 @@ export default function FeedbacksPage() {
 
         {error ? <p className="auth-message auth-error">{error}</p> : null}
 
-        {isLoading ? (
+        {isGuestSession ? (
+          <div className="favorites-container feedbacks-empty">
+            <p className="muted">
+              Geri bildirim gecmisi sadece giris yapan kullanicilara acik.
+            </p>
+          </div>
+        ) : isLoading ? (
           <div className="favorites-container">
             <p className="muted">Feedback listesi yukleniyor...</p>
           </div>
         ) : feedbacks.length === 0 ? (
           <div className="favorites-container feedbacks-empty">
             <p className="muted">
-              Henüz film geri bildirimi yok. Önerilen filmlere tepki verdiğinde
+              Henuz film geri bildirimi yok. Onerilen filmlere tepki verdiginde
               burada listelenecek.
             </p>
           </div>
@@ -144,7 +158,7 @@ export default function FeedbacksPage() {
                     onClick={() => handleReactionChange(item, "like")}
                   >
                     <span className="feedback-icon">👍</span>
-                    <span>Beğendim</span>
+                    <span>Begendim</span>
                   </button>
                   <button
                     type="button"
@@ -152,7 +166,7 @@ export default function FeedbacksPage() {
                     onClick={() => handleReactionChange(item, "neutral")}
                   >
                     <span className="feedback-icon">😐</span>
-                    <span>Nötr</span>
+                    <span>Notr</span>
                   </button>
                   <button
                     type="button"
@@ -160,7 +174,7 @@ export default function FeedbacksPage() {
                     onClick={() => handleReactionChange(item, "dislike")}
                   >
                     <span className="feedback-icon">👎</span>
-                    <span>Beğenmedim</span>
+                    <span>Begenmedim</span>
                   </button>
                 </div>
               </article>

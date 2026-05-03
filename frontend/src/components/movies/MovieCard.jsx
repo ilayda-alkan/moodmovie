@@ -27,7 +27,9 @@ export default function MovieCard({
 
       <div className="movie-actions">
         <div
-          className={`movie-action-wrap ${!canUseMovieActions ? "has-tooltip" : ""}`}
+          className={`movie-action-wrap tooltip-align-left ${
+            !canUseMovieActions ? "has-tooltip" : ""
+          }`}
           data-tooltip={!canUseMovieActions ? favoriteTooltip : ""}
         >
           <button
@@ -45,7 +47,9 @@ export default function MovieCard({
         </div>
 
         <div
-          className={`movie-action-wrap ${!canUseMovieActions ? "has-tooltip" : ""}`}
+          className={`movie-action-wrap tooltip-align-right ${
+            !canUseMovieActions ? "has-tooltip" : ""
+          }`}
           data-tooltip={!canUseMovieActions ? trailerTooltip : ""}
         >
           <button

@@ -49,14 +49,16 @@ export default function Sidebar() {
             </NavLink>
           ) : null}
 
-          <NavLink
-            to="/feedbacks"
-            className={({ isActive }) =>
-              isActive ? "sidebar-link active" : "sidebar-link"
-            }
-          >
-            Geri Bildirimler
-          </NavLink>
+          {!isGuestSession ? (
+            <NavLink
+              to="/feedbacks"
+              className={({ isActive }) =>
+                isActive ? "sidebar-link active" : "sidebar-link"
+              }
+            >
+              Geri Bildirimler
+            </NavLink>
+          ) : null}
         </nav>
       </div>
 
