@@ -10,6 +10,8 @@ import {
   sendFeedbackRequest,
 } from "../services/api";
 
+const MOOD_TEXT_MAX_LENGTH = 200;
+
 export default function AnalyzePage() {
   const isGuestSession = localStorage.getItem("session_mode") === "guest";
   const [text, setText] = useState("");
@@ -146,6 +148,10 @@ export default function AnalyzePage() {
     await runAnalysis(text);
   }
 
+  function handleTextChange(value) {
+    setText(value.slice(0, MOOD_TEXT_MAX_LENGTH));
+  }
+
   function handleGuestFeedbackSubmit() {
     window.location.reload();
   }
@@ -184,8 +190,9 @@ export default function AnalyzePage() {
         .trim();
 
       if (transcript) {
-        setText(transcript);
-        void runAnalysis(transcript);
+        const limitedTranscript = transcript.slice(0, MOOD_TEXT_MAX_LENGTH);
+        setText(limitedTranscript);
+        void runAnalysis(limitedTranscript);
       }
 
       setMicStatus("Konuşma tamamlandı");
@@ -221,7 +228,8 @@ export default function AnalyzePage() {
     <div className="analyze-layout">
       <MoodInputCard
         text={text}
-        onTextChange={setText}
+        onTextChange={handleTextChange}
+        maxLength={MOOD_TEXT_MAX_LENGTH}
         onAnalyze={handleAnalyze}
         onStartListening={handleStartListening}
         emotionResult={emotionResult}

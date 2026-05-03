@@ -564,7 +564,7 @@ button {
   font-size: 0.95rem;
   line-height: 1.4;
   outline: none;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .mood-textarea::placeholder {
@@ -574,6 +574,14 @@ button {
 .mood-textarea:focus {
   border-color: rgba(167, 139, 250, 0.8);
   box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.12);
+}
+
+.character-count {
+  display: block;
+  margin-bottom: 12px;
+  color: #9fb0d3;
+  font-size: 0.78rem;
+  text-align: right;
 }
 
 .analyze-btn {

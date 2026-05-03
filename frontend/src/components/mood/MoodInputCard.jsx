@@ -8,9 +8,11 @@ export default function MoodInputCard({
   error,
   micStatus,
   isListening,
+  maxLength,
 }) {
   const hasEmotion =
     emotionResult?.primaryEmotion || emotionResult?.confidence !== null;
+  const characterCount = text.length;
 
   return (
     <section className="analyze-panel mood-panel">
@@ -32,8 +34,15 @@ export default function MoodInputCard({
         className="mood-textarea"
         value={text}
         onChange={(e) => onTextChange(e.target.value)}
+        maxLength={maxLength}
         placeholder="Bugün nasıl hissediyorsun?"
       />
+
+      {maxLength ? (
+        <span className="character-count">
+          {characterCount}/{maxLength}
+        </span>
+      ) : null}
 
       <button
         className="analyze-btn"
