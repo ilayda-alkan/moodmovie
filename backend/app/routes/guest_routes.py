@@ -53,6 +53,7 @@ def serialize_guest_feedback(feedback: GuestFeedback) -> GuestFeedbackResponse:
         reaction=feedback.reaction,
         emotion_context=feedback.emotion_context,
         analysis_text=feedback.analysis_text,
+        guest_session_id=feedback.guest_session_id,
     )
 
 
