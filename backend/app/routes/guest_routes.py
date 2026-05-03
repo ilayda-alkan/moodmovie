@@ -98,6 +98,9 @@ def upsert_guest_feedback(
     emotion_context = (
         payload.emotion_context.strip().lower() if payload.emotion_context else None
     )
+    analysis_text = None
+    if payload.analysis_text and payload.analysis_text.strip():
+        analysis_text = payload.analysis_text.strip()
     now = datetime.now(timezone.utc)
 
     existing = (
@@ -106,6 +109,7 @@ def upsert_guest_feedback(
             GuestFeedback.guest_session_id == guest_session.id,
             GuestFeedback.movie_id == payload.movie_id,
             GuestFeedback.emotion_context == emotion_context,
+            GuestFeedback.analysis_text == analysis_text,
         )
         .first()
     )
@@ -113,7 +117,7 @@ def upsert_guest_feedback(
     if existing:
         existing.title = payload.title
         existing.reaction = reaction
-        existing.analysis_text = payload.analysis_text
+        existing.analysis_text = analysis_text
         existing.updated_at = now
         db.commit()
         db.refresh(existing)
@@ -125,7 +129,7 @@ def upsert_guest_feedback(
         title=payload.title,
         reaction=reaction,
         emotion_context=emotion_context,
-        analysis_text=payload.analysis_text,
+        analysis_text=analysis_text,
         created_at=now,
         updated_at=now,
     )
