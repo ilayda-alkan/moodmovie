@@ -338,6 +338,56 @@ button {
   width: 100%;
 }
 
+.auth-tooltip-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.auth-tooltip-wrap::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  z-index: 10;
+  width: max-content;
+  max-width: min(280px, 90vw);
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #1f2937;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.22);
+}
+
+.auth-tooltip-wrap::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  z-index: 10;
+  border: 6px solid transparent;
+  border-top-color: #1f2937;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.auth-tooltip-wrap:hover::after,
+.auth-tooltip-wrap:hover::before,
+.auth-tooltip-wrap:focus-within::after,
+.auth-tooltip-wrap:focus-within::before {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
 /* Dashboard */
 .hero {
   display: grid;
