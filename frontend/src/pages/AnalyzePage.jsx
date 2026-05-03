@@ -11,6 +11,75 @@ import {
 } from "../services/api";
 
 const MOOD_TEXT_MAX_LENGTH = 200;
+const EMOTION_WORDS = [
+  "agladim",
+  "aglamak",
+  "ask",
+  "biktim",
+  "bunaldim",
+  "canim",
+  "cok",
+  "duygu",
+  "dusun",
+  "endise",
+  "gergin",
+  "heyecan",
+  "hisset",
+  "huzun",
+  "iyi",
+  "keder",
+  "kork",
+  "kotu",
+  "mutlu",
+  "mutsuz",
+  "neseli",
+  "ofke",
+  "ozle",
+  "rahat",
+  "sakin",
+  "sevin",
+  "sinir",
+  "stres",
+  "uzgun",
+  "yalniz",
+  "yorgun",
+];
+
+function normalizeForValidation(value) {
+  return value
+    .toLocaleLowerCase("tr-TR")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/ı/g, "i")
+    .replace(/ğ/g, "g")
+    .replace(/ü/g, "u")
+    .replace(/ş/g, "s")
+    .replace(/ö/g, "o")
+    .replace(/ç/g, "c");
+}
+
+function getMoodTextValidationError(value) {
+  const normalized = normalizeForValidation(value);
+  const letters = normalized.match(/[a-z]/g) ?? [];
+  const words = normalized.match(/[a-z]{2,}/g) ?? [];
+  const uniqueLetters = new Set(letters);
+  const hasEmotionWord = EMOTION_WORDS.some((word) => normalized.includes(word));
+  const repeatedCharacters = /(.)\1{4,}/.test(normalized);
+
+  if (letters.length < 8 || words.length < 2) {
+    return "Lütfen duygunu anlatan en az bir iki kelimelik anlamlı bir metin yaz.";
+  }
+
+  if (uniqueLetters.size < 4 || repeatedCharacters) {
+    return "Bu metin anlamlı görünmüyor. Lütfen o anki ruh halini kısaca anlat.";
+  }
+
+  if (!hasEmotionWord && words.length < 4) {
+    return "Duygu analizi için nasıl hissettiğini anlatan bir cümle yazmalısın.";
+  }
+
+  return "";
+}
 
 export default function AnalyzePage() {
   const isGuestSession = localStorage.getItem("session_mode") === "guest";
@@ -38,6 +107,20 @@ export default function AnalyzePage() {
 
     if (!analysisText) {
       setError("Lütfen analiz için bir metin giriniz.");
+      return;
+    }
+
+    const validationError = getMoodTextValidationError(analysisText);
+    if (validationError) {
+      setError(validationError);
+      setMovies([]);
+      setEmotionResult({
+        emotion: "",
+        mood: "",
+        primaryEmotion: "",
+        intensity: "",
+        confidence: null,
+      });
       return;
     }
 

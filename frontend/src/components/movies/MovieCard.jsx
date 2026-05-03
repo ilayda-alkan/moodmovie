@@ -7,8 +7,8 @@ export default function MovieCard({
   onFeedback,
   canUseMovieActions = true,
 }) {
-  const favoriteTooltip = "Favorilere eklemek icin login olman gerekiyor.";
-  const trailerTooltip = "Fragman izlemek icin login olman gerekiyor.";
+  const favoriteTooltip = "Favorilere eklemek için login olman gerekiyor.";
+  const trailerTooltip = "Fragman izlemek için login olman gerekiyor.";
 
   function handleTrailerOpen() {
     if (!movie.trailerUrl) return;
@@ -22,7 +22,7 @@ export default function MovieCard({
       <p className="movie-genre">
         {Array.isArray(movie.genres) && movie.genres.length > 0
           ? movie.genres.join("|")
-          : "Tur bilgisi yok"}
+          : "Tür bilgisi yok"}
       </p>
 
       <div className="movie-actions">
@@ -68,7 +68,7 @@ export default function MovieCard({
           type="button"
           className={`feedback-btn ${feedbackReaction === "like" ? "active like" : ""}`}
           onClick={() => onFeedback?.(movie, "like")}
-          aria-label="Begendim"
+          aria-label="Beğendim"
         >
           👍
         </button>
@@ -76,7 +76,7 @@ export default function MovieCard({
           type="button"
           className={`feedback-btn ${feedbackReaction === "neutral" ? "active neutral" : ""}`}
           onClick={() => onFeedback?.(movie, "neutral")}
-          aria-label="Notr"
+          aria-label="Nötr"
         >
           😐
         </button>
@@ -84,7 +84,7 @@ export default function MovieCard({
           type="button"
           className={`feedback-btn ${feedbackReaction === "dislike" ? "active dislike" : ""}`}
           onClick={() => onFeedback?.(movie, "dislike")}
-          aria-label="Begenmedim"
+          aria-label="Beğenmedim"
         >
           👎
         </button>

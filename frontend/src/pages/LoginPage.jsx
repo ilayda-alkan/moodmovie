@@ -8,6 +8,7 @@ export default function LoginPage() {
   const isGuestSession = localStorage.getItem("session_mode") === "guest";
 
   const [isLogin, setIsLogin] = useState(true);
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -162,15 +163,46 @@ export default function LoginPage() {
 
             <label className="auth-field">
               <span>Şifre</span>
-              <input
-                type="password"
-                name="password"
-                placeholder="Şifreni gir"
-                value={formData.password}
-                onChange={handleChange}
-                className="auth-input"
-                required
-              />
+              <div className="auth-password-control">
+                <input
+                  type={passwordVisible ? "text" : "password"}
+                  name="password"
+                  placeholder="Şifreni gir"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="auth-input auth-password-input"
+                  required
+                />
+                <button
+                  type="button"
+                  className="auth-password-toggle"
+                  onClick={() => setPasswordVisible((visible) => !visible)}
+                  aria-label={passwordVisible ? "Sifreyi gizle" : "Sifreyi goster"}
+                  title={passwordVisible ? "Sifreyi gizle" : "Sifreyi goster"}
+                >
+                  {passwordVisible ? (
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      className="auth-password-icon"
+                    >
+                      <path d="M3 3l18 18" />
+                      <path d="M10.7 5.1A10.9 10.9 0 0 1 12 5c5 0 8.5 4.2 9.7 5.9.4.6.4 1.2 0 1.8-.4.6-1.1 1.5-2.1 2.4" />
+                      <path d="M6.7 6.7A15.2 15.2 0 0 0 2.3 11c-.4.6-.4 1.2 0 1.8C3.5 14.6 7 18.8 12 18.8c1.7 0 3.2-.5 4.5-1.2" />
+                      <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" />
+                    </svg>
+                  ) : (
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      className="auth-password-icon"
+                    >
+                      <path d="M2.3 11.1C3.5 9.4 7 5.2 12 5.2s8.5 4.2 9.7 5.9c.4.6.4 1.2 0 1.8-1.2 1.7-4.7 5.9-9.7 5.9s-8.5-4.2-9.7-5.9c-.4-.6-.4-1.2 0-1.8Z" />
+                      <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" />
+                    </svg>
+                  )}
+                </button>
+              </div>
             </label>
 
             {error && <p className="auth-message auth-error">{error}</p>}

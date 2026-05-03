@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onToggle, onClose }) {
   const navigate = useNavigate();
   const isGuestSession = localStorage.getItem("session_mode") === "guest";
 
@@ -14,26 +14,40 @@ export default function Sidebar() {
     navigate("/login");
   };
 
+  const getLinkClassName = ({ isActive }) =>
+    isActive ? "sidebar-link active" : "sidebar-link";
+
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isOpen ? "open" : "closed"}`}>
       <div>
-        <div className="sidebar-brand">MoodMovie</div>
+        <div className="sidebar-header">
+          <div className="sidebar-brand">MoodMovie</div>
+          <button
+            type="button"
+            className="sidebar-toggle-button"
+            onClick={onToggle}
+            aria-label={isOpen ? "MenÃ¼yÃ¼ kapat" : "MenÃ¼yÃ¼ aÃ§"}
+            title={isOpen ? "MenÃ¼yÃ¼ kapat" : "MenÃ¼yÃ¼ aÃ§"}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
 
         <nav className="sidebar-nav">
           <NavLink
             to="/dashboard"
-            className={({ isActive }) =>
-              isActive ? "sidebar-link active" : "sidebar-link"
-            }
+            className={getLinkClassName}
+            onClick={onClose}
           >
             Ana Sayfa
           </NavLink>
 
           <NavLink
             to="/analyze"
-            className={({ isActive }) =>
-              isActive ? "sidebar-link active" : "sidebar-link"
-            }
+            className={getLinkClassName}
+            onClick={onClose}
           >
             Duygu Analizi
           </NavLink>
@@ -41,22 +55,20 @@ export default function Sidebar() {
           {!isGuestSession ? (
             <NavLink
               to="/favorites"
-              className={({ isActive }) =>
-                isActive ? "sidebar-link active" : "sidebar-link"
-              }
+              className={getLinkClassName}
+              onClick={onClose}
             >
-              Favoriler
+              Favorilerim
             </NavLink>
           ) : null}
 
           {!isGuestSession ? (
             <NavLink
               to="/feedbacks"
-              className={({ isActive }) =>
-                isActive ? "sidebar-link active" : "sidebar-link"
-              }
+              className={getLinkClassName}
+              onClick={onClose}
             >
-              Geri Bildirimler
+              Geri Bildirimlerim
             </NavLink>
           ) : null}
         </nav>

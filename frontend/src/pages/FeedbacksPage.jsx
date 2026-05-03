@@ -29,7 +29,7 @@ export default function FeedbacksPage() {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err?.response?.data?.detail || "Feedback listesi yuklenemedi.");
+          setError(err?.response?.data?.detail || "Feedback listesi yüklenemedi.");
         }
       } finally {
         if (isMounted) {
@@ -80,7 +80,7 @@ export default function FeedbacksPage() {
         )
       );
     } catch (err) {
-      setError(err?.response?.data?.detail || "Feedback guncellenemedi.");
+      setError(err?.response?.data?.detail || "Feedback güncellenemedi.");
     }
   }
 
@@ -91,8 +91,8 @@ export default function FeedbacksPage() {
           <div>
             <h1>Geri Bildirimlerim</h1>
             <p className="feedbacks-subtitle">
-              Onerilen filmlere verdigin tepkileri burada takip edebilir, begeni
-              durumlarini istedigin zaman degistirebilirsin.
+              Önerilen filmlere verdiğin tepkileri burada takip edebilir, beğeni
+              durumlarını istediğin zaman değiştirebilirsin.
             </p>
           </div>
 
@@ -102,15 +102,15 @@ export default function FeedbacksPage() {
               <strong>{summary.total}</strong>
             </div>
             <div className="feedbacks-summary-card like">
-              <span>Begendim</span>
+              <span>Beğendim</span>
               <strong>{summary.like}</strong>
             </div>
             <div className="feedbacks-summary-card neutral">
-              <span>Notr</span>
+              <span>Nötr</span>
               <strong>{summary.neutral}</strong>
             </div>
             <div className="feedbacks-summary-card dislike">
-              <span>Begenmedim</span>
+              <span>Beğenmedim</span>
               <strong>{summary.dislike}</strong>
             </div>
           </div>
@@ -121,17 +121,17 @@ export default function FeedbacksPage() {
         {isGuestSession ? (
           <div className="favorites-container feedbacks-empty">
             <p className="muted">
-              Geri bildirim gecmisi sadece giris yapan kullanicilara acik.
+              Geri bildirim geçmişi sadece giriş yapan kullanıcılara açık.
             </p>
           </div>
         ) : isLoading ? (
           <div className="favorites-container">
-            <p className="muted">Feedback listesi yukleniyor...</p>
+            <p className="muted">Feedback listesi yükleniyor...</p>
           </div>
         ) : feedbacks.length === 0 ? (
           <div className="favorites-container feedbacks-empty">
             <p className="muted">
-              Henuz film geri bildirimi yok. Onerilen filmlere tepki verdiginde
+              Henüz film geri bildirimi yok. Önerilen filmlere tepki verdiğinde
               burada listelenecek.
             </p>
           </div>
@@ -158,7 +158,7 @@ export default function FeedbacksPage() {
                     onClick={() => handleReactionChange(item, "like")}
                   >
                     <span className="feedback-icon">👍</span>
-                    <span>Begendim</span>
+                    <span>Beğendim</span>
                   </button>
                   <button
                     type="button"
@@ -174,7 +174,7 @@ export default function FeedbacksPage() {
                     onClick={() => handleReactionChange(item, "dislike")}
                   >
                     <span className="feedback-icon">👎</span>
-                    <span>Begenmedim</span>
+                    <span>Beğenmedim</span>
                   </button>
                 </div>
               </article>
