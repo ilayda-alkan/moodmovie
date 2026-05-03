@@ -23,6 +23,22 @@ export default defineConfig({
         target: "http://backend:8000",
         changeOrigin: true,
       },
+      "/guest": {
+        target: "http://backend:8000",
+        changeOrigin: true,
+      },
+      "/guest-feedbacks": {
+        target: "http://backend:8000",
+        changeOrigin: true,
+      },
+      "/feedbacks": { // Normal kullanıcı feedbackleri için (eğer frontendden /feedbacks diye çağırıyorsan)
+          target: "http://backend:8000",
+          changeOrigin: true,
+      },
+      "/favorites": { // Favoriler için
+          target: "http://backend:8000",
+          changeOrigin: true,
+      },
     },
   },
 });

@@ -196,21 +196,16 @@ export default function LoginPage() {
               </button>
             </div>
 
-            <div
-              className="auth-tooltip-wrap"
-              data-tooltip="Geçici bir sorun var. Lütfen daha sonra tekrar deneyin."
+            <button
+              type="button"
+              className={`auth-submit-button auth-guest-button ${
+                isGuestSession ? "" : "secondary"
+              }`}
+              onClick={handleContinueAsGuest}
+              disabled={loading}
             >
-              <button
-                type="button"
-                className={`auth-submit-button auth-guest-button ${
-                  isGuestSession ? "" : "secondary"
-                }`}
-                onClick={handleContinueAsGuest}
-                disabled
-              >
-                Misafir Olarak Devam Et
-              </button>
-            </div>
+              {loading ? "Yukleniyor..." : "Misafir Olarak Devam Et"}
+            </button>
           </form>
         </section>
       </div>

@@ -80,6 +80,7 @@ class GuestSessionResponse(BaseModel):
 
 class GuestFeedbackResponse(BaseModel):
     id: int
+    guest_session_id: int
     movie_id: str
     title: str
     reaction: str
