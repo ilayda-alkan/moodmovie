@@ -198,7 +198,7 @@ export default function LoginPage() {
 
             <div
               className="auth-tooltip-wrap"
-              data-tooltip="Gecici bir sorun var. Lutfen daha sonra tekrar deneyin."
+              data-tooltip="Geçici bir sorun var. Lütfen daha sonra tekrar deneyin."
             >
               <button
                 type="button"
