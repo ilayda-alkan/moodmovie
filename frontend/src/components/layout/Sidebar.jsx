@@ -1,5 +1,12 @@
 import { NavLink, useNavigate } from "react-router-dom";
 
+const sidebarLinks = [
+  { to: "/dashboard", label: "Ana Sayfa", icon: "A", guest: true },
+  { to: "/analyze", label: "Duygu Analizi", icon: "D", guest: true },
+  { to: "/favorites", label: "Favorilerim", icon: "F", guest: false },
+  { to: "/feedbacks", label: "Geri Bildirimlerim", icon: "G", guest: false },
+];
+
 export default function Sidebar({ isOpen, onToggle, onClose }) {
   const navigate = useNavigate();
   const isGuestSession = localStorage.getItem("session_mode") === "guest";
@@ -26,8 +33,8 @@ export default function Sidebar({ isOpen, onToggle, onClose }) {
             type="button"
             className="sidebar-toggle-button"
             onClick={onToggle}
-            aria-label={isOpen ? "MenÃ¼yÃ¼ kapat" : "MenÃ¼yÃ¼ aÃ§"}
-            title={isOpen ? "MenÃ¼yÃ¼ kapat" : "MenÃ¼yÃ¼ aÃ§"}
+            aria-label={isOpen ? "Menuyu kapat" : "Menuyu ac"}
+            title={isOpen ? "Menuyu kapat" : "Menuyu ac"}
           >
             <span />
             <span />
@@ -36,46 +43,28 @@ export default function Sidebar({ isOpen, onToggle, onClose }) {
         </div>
 
         <nav className="sidebar-nav">
-          <NavLink
-            to="/dashboard"
-            className={getLinkClassName}
-            onClick={onClose}
-          >
-            Ana Sayfa
-          </NavLink>
-
-          <NavLink
-            to="/analyze"
-            className={getLinkClassName}
-            onClick={onClose}
-          >
-            Duygu Analizi
-          </NavLink>
-
-          {!isGuestSession ? (
-            <NavLink
-              to="/favorites"
-              className={getLinkClassName}
-              onClick={onClose}
-            >
-              Favorilerim
-            </NavLink>
-          ) : null}
-
-          {!isGuestSession ? (
-            <NavLink
-              to="/feedbacks"
-              className={getLinkClassName}
-              onClick={onClose}
-            >
-              Geri Bildirimlerim
-            </NavLink>
-          ) : null}
+          {sidebarLinks
+            .filter((link) => link.guest || !isGuestSession)
+            .map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                className={getLinkClassName}
+                onClick={onClose}
+                title={link.label}
+              >
+                <span className="sidebar-link-icon">{link.icon}</span>
+                <span className="sidebar-link-text">{link.label}</span>
+              </NavLink>
+            ))}
         </nav>
       </div>
 
-      <button className="logout-button" onClick={handleLogout}>
-        Çıkış Yap
+      <button className="logout-button" onClick={handleLogout} title="Cikis Yap">
+        <span className="logout-icon" aria-hidden="true">
+          X
+        </span>
+        <span className="logout-text">Cikis Yap</span>
       </button>
     </aside>
   );

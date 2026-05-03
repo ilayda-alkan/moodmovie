@@ -75,8 +75,7 @@ button {
   pointer-events: none;
 }
 
-.sidebar-toggle-button,
-.sidebar-floating-toggle {
+.sidebar-toggle-button {
   width: 42px;
   height: 42px;
   flex: 0 0 42px;
@@ -92,35 +91,20 @@ button {
   box-shadow: 0 14px 30px rgba(2, 6, 23, 0.22);
 }
 
-.sidebar-toggle-button span,
-.sidebar-floating-toggle span {
+.sidebar.closed .sidebar-toggle-button {
+  margin-inline: auto;
+}
+
+.sidebar-toggle-button span {
   width: 18px;
   height: 2px;
   border-radius: 999px;
   background: currentColor;
 }
 
-.sidebar-toggle-button:hover,
-.sidebar-floating-toggle:hover {
+.sidebar-toggle-button:hover {
   border-color: rgba(129, 140, 248, 0.7);
   background: #1e293b;
-}
-
-.sidebar-floating-toggle {
-  position: fixed;
-  top: 18px;
-  left: calc(var(--sidebar-width) + 18px);
-  z-index: 20;
-  transition: left 0.22s ease, opacity 0.18s ease;
-}
-
-.app-shell:not(.sidebar-collapsed) .sidebar-floating-toggle {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.sidebar-collapsed .sidebar-floating-toggle {
-  left: calc(var(--sidebar-closed-width) + 18px);
 }
 
 .sidebar-nav {
@@ -132,12 +116,33 @@ button {
 .sidebar-link {
   display: flex;
   align-items: center;
+  gap: 10px;
   min-height: 46px;
   padding: 12px 14px;
   border-radius: 10px;
   color: #94a3b8;
   transition: 0.2s ease;
   white-space: nowrap;
+}
+
+.sidebar-link-icon,
+.logout-icon {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: rgba(99, 102, 241, 0.16);
+  color: #c7d2fe;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.sidebar-link-text,
+.logout-text {
+  transition: opacity 0.18s ease, transform 0.18s ease;
 }
 
 .sidebar-link:hover {
@@ -151,26 +156,45 @@ button {
 }
 
 .sidebar.closed .sidebar-link {
-  width: 46px;
-  padding-inline: 0;
+  width: 54px;
+  padding-inline: 13px;
   justify-content: center;
-  color: transparent;
 }
 
-.sidebar.closed .sidebar-link::first-letter {
-  color: #94a3b8;
+.sidebar.closed .sidebar-link-text,
+.sidebar.closed .logout-text {
+  opacity: 0;
+  transform: translateX(-8px);
+  pointer-events: none;
+  width: 0;
+  overflow: hidden;
 }
 
 .logout-button {
   margin: 16px 0 0;
-  padding: 12px;
+  min-height: 46px;
+  padding: 9px 12px;
   border-radius: 10px;
   border: 1px solid #ef4444;
   background: transparent;
   color: #fca5a5;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.logout-icon {
+  background: rgba(239, 68, 68, 0.14);
+  color: #fca5a5;
+}
+
+.sidebar.closed .logout-button {
+  width: 54px;
+  padding-inline: 13px;
+  justify-content: center;
 }
 
 .logout-button:hover {
@@ -182,7 +206,6 @@ button {
   min-height: 100vh;
   margin-left: var(--sidebar-width);
   padding: 24px;
-  padding-top: 78px;
   transition: margin-left 0.22s ease;
 }
 
@@ -1177,48 +1200,28 @@ button {
 @media (max-width: 900px) {
   .app-shell {
     --sidebar-width: 280px;
-    --sidebar-closed-width: 0px;
+    --sidebar-closed-width: 72px;
   }
 
   .sidebar {
     width: var(--sidebar-width);
     padding: 20px 16px;
-    transform: translateX(0);
   }
 
   .sidebar.closed {
-    width: var(--sidebar-width);
-    padding: 20px 16px;
-    transform: translateX(-100%);
+    width: var(--sidebar-closed-width);
+    padding: 20px 9px;
   }
 
   .sidebar.closed .sidebar-brand {
-    opacity: 1;
-    transform: none;
+    opacity: 0;
+    transform: translateX(-8px);
   }
 
   .sidebar.closed .sidebar-link {
-    width: auto;
-    padding: 12px 14px;
-    justify-content: flex-start;
-    color: #94a3b8;
-  }
-
-  .sidebar.closed .sidebar-link::first-letter {
-    color: inherit;
-  }
-
-  .sidebar-floating-toggle {
-    top: 16px;
-    left: 16px;
-  }
-
-  .sidebar-collapsed .sidebar-floating-toggle {
-    left: 16px;
-  }
-
-  .app-shell:not(.sidebar-collapsed) .sidebar-floating-toggle {
-    opacity: 0;
+    width: 54px;
+    padding-inline: 13px;
+    justify-content: center;
   }
 
   .sidebar-backdrop {
@@ -1232,13 +1235,12 @@ button {
   }
 
   .main-content {
-    margin-left: 0;
+    margin-left: var(--sidebar-width);
     padding: 18px;
-    padding-top: 74px;
   }
 
   .sidebar-collapsed .main-content {
-    margin-left: 0;
+    margin-left: var(--sidebar-closed-width);
   }
 
   .hero {
