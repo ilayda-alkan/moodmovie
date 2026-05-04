@@ -107,11 +107,11 @@ export default function Sidebar({ isOpen, onToggle, onClose }) {
         </nav>
       </div>
 
-      <button className="logout-button" onClick={handleLogout} title="Cikis Yap">
+      <button className="logout-button" onClick={handleLogout} title="Çıkış Yap">
         <span className="logout-icon" aria-hidden="true">
           <SidebarIcon type="logout" />
         </span>
-        <span className="logout-text">Cikis Yap</span>
+        <span className="logout-text">Çıkış Yap</span>
       </button>
     </aside>
   );
