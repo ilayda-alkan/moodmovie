@@ -50,7 +50,11 @@ button {
 
 .sidebar.closed {
   width: var(--sidebar-closed-width);
-  padding-inline: 12px;
+  padding-inline: 10px;
+}
+
+.sidebar-main {
+  min-width: 0;
 }
 
 .sidebar-header {
@@ -73,6 +77,8 @@ button {
   opacity: 0;
   transform: translateX(-8px);
   pointer-events: none;
+  width: 0;
+  overflow: hidden;
 }
 
 .sidebar-toggle-button {
@@ -95,6 +101,11 @@ button {
   margin-inline: auto;
 }
 
+.sidebar.closed .sidebar-header {
+  justify-content: center;
+  gap: 0;
+}
+
 .sidebar-toggle-button span {
   width: 18px;
   height: 2px;
@@ -107,10 +118,21 @@ button {
   background: #1e293b;
 }
 
+.sidebar-toggle-button:focus-visible,
+.sidebar-link:focus-visible,
+.logout-button:focus-visible {
+  outline: 2px solid #c7d2fe;
+  outline-offset: -2px;
+}
+
 .sidebar-nav {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.sidebar.closed .sidebar-nav {
+  align-items: center;
 }
 
 .sidebar-link {
@@ -127,17 +149,25 @@ button {
 
 .sidebar-link-icon,
 .logout-icon {
-  width: 28px;
-  height: 28px;
-  flex: 0 0 28px;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9px;
+  border-radius: 10px;
   background: rgba(99, 102, 241, 0.16);
   color: #c7d2fe;
-  font-size: 0.82rem;
-  font-weight: 800;
+}
+
+.sidebar-icon-svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .sidebar-link-text,
@@ -156,9 +186,11 @@ button {
 }
 
 .sidebar.closed .sidebar-link {
-  width: 54px;
-  padding-inline: 13px;
+  width: 50px;
+  min-height: 50px;
+  padding: 8px;
   justify-content: center;
+  gap: 0;
 }
 
 .sidebar.closed .sidebar-link-text,
@@ -173,7 +205,7 @@ button {
 .logout-button {
   margin: 16px 0 0;
   min-height: 46px;
-  padding: 9px 12px;
+  padding: 8px 12px;
   border-radius: 10px;
   border: 1px solid #ef4444;
   background: transparent;
@@ -192,9 +224,12 @@ button {
 }
 
 .sidebar.closed .logout-button {
-  width: 54px;
-  padding-inline: 13px;
+  width: 50px;
+  min-height: 50px;
+  padding: 8px;
+  align-self: center;
   justify-content: center;
+  gap: 0;
 }
 
 .logout-button:hover {
@@ -1210,17 +1245,18 @@ button {
 
   .sidebar.closed {
     width: var(--sidebar-closed-width);
-    padding: 20px 9px;
+    padding: 20px 10px;
   }
 
   .sidebar.closed .sidebar-brand {
     opacity: 0;
     transform: translateX(-8px);
+    width: 0;
   }
 
   .sidebar.closed .sidebar-link {
-    width: 54px;
-    padding-inline: 13px;
+    width: 50px;
+    padding: 8px;
     justify-content: center;
   }
 
